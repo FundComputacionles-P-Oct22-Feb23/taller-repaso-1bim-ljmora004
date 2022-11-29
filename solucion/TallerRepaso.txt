@@ -1,0 +1,43 @@
+Inicio
+nombre, x(15)[{a-z}, {A-Z}, {BS}]
+cedula, i[0-n]
+horasMatutinas, i[0,n]
+horasNocturnas, i[0,n]
+opcion, x(1)[{a-z}, {A-Z}]
+bandera, l <-- true
+salarioFinal, d[0,n]
+adicional, d[0,n] <-- 10
+costoMatutina, i[0,n] <-- 10
+costoNocturna, i[0,n] <-- 15
+totalMatutina, i[0,n]
+totalNocturna, i[0,n]
+empleados, i[0,n] <-- 0
+mensaje, x(300)[{a-z},{A-Z}, {BS}, {0,n}] <-- ""
+
+mensaje <-- mensaje + "Nómina de Trabajadores\n\n"
+Mientras bandera == true entonces
+	<< "Ingrese el nombre del empleado: "
+	>> nombre
+	<< "Ingrese la cedula del empleado: "
+	>> cedula
+	<< "Ingrese las horas matutinas trabajadas: "
+	>> horasMatutinas
+	<< "Ingrese las horas nocturnas trabajadas: "
+	>> horasNocturnas
+	totalMatutina <-- horasMatutinas * costoMatutina
+	totalNocturna <-- horasNocturnas * costoNocturna
+	Si horasNocturnas >= 10 entonces
+		adicional <-- (costoNocturna * adicional)/100
+		costoNocturna <-- costoNocturna + adicional
+		totalNocturna <-- horasNocturnas * costoNocturna
+	Fin Si
+	salarioFinal <-- totalMatutina + totalNocturna
+	mensaje <-- mensaje + "Rol del trabajador de nombre " + nombre + " y cedula " + cedula + ".\n\tHoras matutinas trabajadas: " + horasMatutinas + ".\n\tHoras nocturnas trabajadas: " + horasNocturnas + ".\n\tTotal a cancelar "	+ salarioFinal + ".\n\n"
+	empleados <-- empleados + 1
+	<< "Si desea terminar el programa, presione (s). De lo contrario (n)."
+	>> opcion
+	Si opcion == "s" entonces
+		bandera <-- false
+	Fin Si	
+Fin Mientras
+<< mensaje + "Número de empleados " + empleados
